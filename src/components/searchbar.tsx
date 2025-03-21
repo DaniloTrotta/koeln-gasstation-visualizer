@@ -12,7 +12,7 @@ export const SearchBar = () => {
 		<div className="w-full">
 			<Input
 				type="search"
-				placeholder="Search by address..."
+				placeholder="Adresse suchen..."
 				value={searchTerm ?? undefined}
 				onChange={(e) => setSearchTerm(e.target.value, { shallow: false })}
 				className="w-full"
