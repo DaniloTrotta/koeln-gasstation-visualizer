@@ -1,7 +1,7 @@
 "use client";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 // biome-ignore lint/suspicious/noShadowRestrictedNames: <explanation>
-import Map, { Marker } from "react-map-gl/mapbox";
+import Map, { Marker, Popup } from "react-map-gl/mapbox";
 import "mapbox-gl/dist/mapbox-gl.css";
 import { useTheme } from "next-themes";
 import type { GasStationFeatureForTable } from "./columns";
@@ -13,6 +13,9 @@ export const GasStationMap = ({
 }) => {
 	const { theme } = useTheme();
 	const initialViewState = gasStations.at(0)?.coordinates;
+	const [popupInfo, setPopupInfo] = useState<GasStationFeatureForTable | null>(
+		null,
+	);
 
 	const markers = useMemo(
 		() =>
@@ -21,6 +24,13 @@ export const GasStationMap = ({
 					key={gasStation.adresse}
 					longitude={gasStation.coordinates.x}
 					latitude={gasStation.coordinates.y}
+					anchor="bottom"
+					onClick={(e) => {
+						// If we let the click event propagates to the map, it will immediately close the popup
+						// with `closeOnClick: true`
+						e.originalEvent.stopPropagation();
+						setPopupInfo(gasStation);
+					}}
 				/>
 			)),
 		[gasStations],
@@ -43,6 +53,16 @@ export const GasStationMap = ({
 				}
 			>
 				{markers}
+				{popupInfo && (
+					<Popup
+						anchor="top"
+						longitude={Number(popupInfo.coordinates.x)}
+						latitude={Number(popupInfo.coordinates.y)}
+						onClose={() => setPopupInfo(null)}
+					>
+						<div>{popupInfo.adresse}</div>
+					</Popup>
+				)}
 			</Map>
 		</div>
 	);
