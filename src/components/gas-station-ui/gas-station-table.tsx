@@ -1,13 +1,14 @@
 import { SearchBar } from "@/components/searchbar";
 import { Card, CardContent } from "@/components/ui/card";
 
+import { extractDistrict } from "@/lib/utils";
+import { filterGasStationsByAddress } from "@/lib/utils";
 import type { routes } from "@/utils/routes";
 import {
 	type GasStationFeature,
 	type GasStationResponse,
 	GasStationResponseSchema,
 } from "@/utils/types";
-import { filterGasStationsByAddress } from "@/utils/utils";
 import React, { use } from "react";
 import { DataTable } from "../ui/data-table";
 import { columns } from "./columns";
@@ -48,13 +49,14 @@ export const GasStationTableServer = ({
 	);
 
 	const transformedGasStationsForTable = filteredGasStations.map(
-		(gasStation) => ({
+		(gasStation: GasStationFeature) => ({
 			id: gasStation.attributes.objectid,
 			adresse: gasStation.attributes.adresse,
 			coordinates: {
 				x: gasStation.geometry.x,
 				y: gasStation.geometry.y,
 			},
+			stadtteil: extractDistrict(gasStation.attributes.adresse),
 		}),
 	);
 
