@@ -1,4 +1,5 @@
 import { GasStationTableServer } from "@/components/gas-station-ui/gas-station-table";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
 import type { PageParams } from "@/lib/page-params";
 import { routes } from "@/utils/routes";
 import { Suspense } from "react";
@@ -10,7 +11,11 @@ export default async function Home(props: PageParams) {
 
 	return (
 		<main className="container mx-auto py-10 px-4">
-			<h1 className="text-3xl font-bold mb-6">Tankstellen in Köln</h1>
+			{/* TODO: Move this to a header component , add maybe logo */}
+			<div className="w-full flex justify-between items-start">
+				<h1 className="text-3xl font-bold mb-6">Tankstellen in Köln</h1>
+				<ThemeToggle isRoundedFull />
+			</div>
 			<p className="text-muted-foreground mb-6">
 				Eine Übersicht aller Tankstellen in Köln mit Filtermöglichkeiten nach
 				Straßennamen und Sortierung.

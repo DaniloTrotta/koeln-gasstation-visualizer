@@ -98,9 +98,11 @@ export function DataTable<TData, TValue>({
 					</TableBody>
 				</Table>
 				<div className="flex items-baseline py-4 px-2 w-full">
-					<p className="mb-2 text-xs text-muted-foreground ">
-						Showing {data.length} of {originalDataCount} gas stations
-					</p>
+					{data.length !== originalDataCount && (
+						<p className="mb-2 text-xs text-muted-foreground ">
+							Showing {data.length} of {originalDataCount} gas stations
+						</p>
+					)}
 					<div className="ml-auto">
 						<DataTablePagination table={table} />
 					</div>
