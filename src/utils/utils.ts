@@ -4,11 +4,7 @@ export function filterGasStationsByAddress(
 	gasStations: GasStationFeature[],
 	searchTerm: string | undefined,
 ): GasStationFeature[] {
-	if (!searchTerm) {
-		return gasStations;
-	}
-
-	if (!searchTerm.trim()) {
+	if (!searchTerm || !searchTerm.trim()) {
 		return gasStations; // Return all stations if no search term
 	}
 

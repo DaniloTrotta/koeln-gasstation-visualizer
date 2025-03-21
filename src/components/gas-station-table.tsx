@@ -5,8 +5,19 @@ import {
 	GasStationResponseSchema,
 } from "@/utils/types";
 import { filterGasStationsByAddress } from "@/utils/utils";
+import { MapPin } from "lucide-react";
 import React, { use } from "react";
 import { SearchBar } from "./searchbar";
+import { Badge } from "./ui/badge";
+import { Card, CardContent } from "./ui/card";
+import {
+	Table,
+	TableBody,
+	TableCell,
+	TableHead,
+	TableHeader,
+	TableRow,
+} from "./ui/table";
 
 async function getGasStations() {
 	const GAS_STATION_URL = process.env.GAS_STATION_URL;
@@ -45,51 +56,86 @@ export const GasStationTableServer = ({
 
 	if (filteredGasStations.length === 0) {
 		return (
-			<div>
-				<h2>Gas Stations in Köln</h2>
-				<div className="search-form">
-					<SearchBar />
-				</div>
-				<p className="mt-4">No gas stations found matching your search.</p>
-			</div>
+			<Card>
+				<CardContent>
+					<div className="search-form">
+						<SearchBar />
+					</div>
+					<p className="mt-4">No gas stations found matching your search.</p>
+				</CardContent>
+			</Card>
 		);
 	}
 
 	return (
-		<div>
-			<h2>Gas Stations in Köln</h2>
+		<Card>
+			<CardContent>
+				<div>
+					{/* Search form */}
+					<div className="search-form mb-4">
+						<SearchBar />
+					</div>
 
-			{/* Search form */}
-			<div className="search-form mb-4">
-				<SearchBar />
-			</div>
+					{/* Results count */}
+					<p className="mb-2">
+						Showing {filteredGasStations.length} of {gasStations.length} gas
+						stations
+					</p>
 
-			{/* Results count */}
-			<p className="mb-2">
-				Showing {filteredGasStations.length} of {gasStations.length} gas
-				stations
-			</p>
-
-			<table className="w-full border-collapse">
-				<thead>
-					<tr>
-						<th className="border p-2">ID</th>
-						<th className="border p-2">Address</th>
-						<th className="border p-2">Coordinates</th>
-					</tr>
-				</thead>
-				<tbody>
-					{filteredGasStations.map((station) => (
-						<tr key={station.attributes.objectid}>
-							<td className="border p-2">{station.attributes.objectid}</td>
-							<td className="border p-2">{station.attributes.adresse}</td>
-							<td className="border p-2">
-								{station.geometry.x.toFixed(6)}, {station.geometry.y.toFixed(6)}
-							</td>
-						</tr>
-					))}
-				</tbody>
-			</table>
-		</div>
+					<div className="rounded-md border">
+						<Table>
+							<TableHeader>
+								<TableRow>
+									<TableHead className="w-[80px]">ID</TableHead>
+									<TableHead>Adresse</TableHead>
+									<TableHead className="hidden md:table-cell">
+										Stadtteil
+									</TableHead>
+									<TableHead className="hidden md:table-cell">
+										Koordinaten
+									</TableHead>
+								</TableRow>
+							</TableHeader>
+							<TableBody>
+								{filteredGasStations && filteredGasStations.length > 0 ? (
+									filteredGasStations.map((station) => (
+										<TableRow
+											key={station?.attributes?.objectid || Math.random()}
+										>
+											<TableCell>
+												{station?.attributes?.objectid || "N/A"}
+											</TableCell>
+											<TableCell>
+												{station?.attributes?.adresse || "N/A"}
+											</TableCell>
+											<TableCell className="hidden md:table-cell">
+												<Badge variant="outline">
+													{station?.attributes?.adresse || ""}
+												</Badge>
+											</TableCell>
+											<TableCell className="hidden md:table-cell">
+												<div className="flex items-center">
+													<MapPin className="mr-2 h-4 w-4 text-muted-foreground" />
+													<span className="text-xs text-muted-foreground">
+														{station?.geometry?.y?.toFixed(6) || "N/A"},{" "}
+														{station?.geometry?.x?.toFixed(6) || "N/A"}
+													</span>
+												</div>
+											</TableCell>
+										</TableRow>
+									))
+								) : (
+									<TableRow>
+										<TableCell colSpan={4} className="text-center py-6">
+											{"Keine Tankstellen gefunden"}
+										</TableCell>
+									</TableRow>
+								)}
+							</TableBody>
+						</Table>
+					</div>
+				</div>
+			</CardContent>
+		</Card>
 	);
 };

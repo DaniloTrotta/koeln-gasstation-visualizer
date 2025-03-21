@@ -1,5 +1,8 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Search } from "lucide-react";
 import { useQueryState } from "nuqs";
 import { useCallback } from "react";
 
@@ -22,8 +25,8 @@ export const SearchBar = () => {
 			onSubmit={handleSubmit}
 			className="flex w-full items-center space-x-0 "
 		>
-			<div className="relative flex-grow ">
-				<input
+			<div className="relative flex-grow flex items-center gap-2">
+				<Input
 					type="search"
 					placeholder="Search by address"
 					value={searchTerm ?? undefined}
@@ -31,12 +34,10 @@ export const SearchBar = () => {
 						setSearchTerm(e.target.value);
 					}}
 				/>
-				<button
-					type="submit"
-					className="h-full rounded-l-none bg-blue-500 text-white w-48"
-				>
+				<Button type="submit" variant="outline">
+					<Search className="size-4" />
 					<span>Search</span>
-				</button>
+				</Button>
 			</div>
 		</form>
 	);
