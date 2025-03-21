@@ -1,4 +1,4 @@
-import { GasStationTableServer } from "@/components/gas-station-table";
+import { GasStationTableServer } from "@/components/gas-station-ui/gas-station-table";
 import type { PageParams } from "@/lib/page-params";
 import { routes } from "@/utils/routes";
 import { Suspense } from "react";
