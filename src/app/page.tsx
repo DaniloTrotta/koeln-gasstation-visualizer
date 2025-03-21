@@ -1,7 +1,7 @@
 import GasStationTableServer from "@/components/gas-station-table";
 
 export type GasStationTableProps = {
-	searchParams?: Promise<{ search?: string }>;
+	searchParams?: { search?: string };
 };
 
 export default async function Home({ searchParams }: GasStationTableProps) {

@@ -10,9 +10,8 @@ import React from "react";
 const GasStationTableServer = async ({
 	searchParams,
 }: GasStationTableProps) => {
-	const currentSearchParams = await searchParams;
-
-	const searchTerm = currentSearchParams?.search || "";
+	// No longer need to await searchParams
+	const searchTerm = searchParams?.search || "";
 
 	let gasStations: GasStationFeature[] = [];
 	let fetchError: Error | null = null;
