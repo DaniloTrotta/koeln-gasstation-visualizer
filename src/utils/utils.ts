@@ -2,9 +2,12 @@ import type { GasStationFeature } from "./types";
 
 export function filterGasStationsByAddress(
 	gasStations: GasStationFeature[],
-	searchTerm: string,
+	searchTerm: string | undefined,
 ): GasStationFeature[] {
-	console.log("filterGasStationsByAddress", searchTerm);
+	if (!searchTerm) {
+		return gasStations;
+	}
+
 	if (!searchTerm.trim()) {
 		return gasStations; // Return all stations if no search term
 	}
