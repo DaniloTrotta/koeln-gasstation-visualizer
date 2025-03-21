@@ -1,24 +1,25 @@
 "use client";
-import type { GasStationFeature } from "@/utils/types";
 import { useMemo } from "react";
 // biome-ignore lint/suspicious/noShadowRestrictedNames: <explanation>
 import Map, { Marker } from "react-map-gl/mapbox";
 import "mapbox-gl/dist/mapbox-gl.css";
+import type { GasStationFeatureForTable } from "./columns";
 
 export const GasStationMap = ({
 	gasStations,
 }: {
-	gasStations: GasStationFeature[];
+	gasStations: GasStationFeatureForTable[];
 }) => {
-	const initialViewState = gasStations.at(0)?.geometry;
+	console.log(gasStations);
+	const initialViewState = gasStations.at(0)?.coordinates;
 
 	const markers = useMemo(
 		() =>
 			gasStations.map((gasStation) => (
 				<Marker
-					key={gasStation.attributes.objectid}
-					longitude={gasStation.geometry.x}
-					latitude={gasStation.geometry.y}
+					key={gasStation.adresse}
+					longitude={gasStation.coordinates.x}
+					latitude={gasStation.coordinates.y}
 					pitchAlignment="map"
 				/>
 			)),

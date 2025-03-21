@@ -19,6 +19,8 @@ import {
 	TableRow,
 } from "@/components/ui/table";
 import { useState } from "react";
+import type { GasStationFeatureForTable } from "../gas-station-ui/columns";
+import { GasStationMap } from "../gas-station-ui/gas-station-map";
 import { DataTablePagination } from "./data-table-pagination";
 
 interface DataTableProps<TData, TValue> {
@@ -46,9 +48,11 @@ export function DataTable<TData, TValue>({
 		},
 	});
 
+	const gasStations = table.getRowModel().rows.map((row) => row.original);
+
 	return (
-		<div>
-			<div className="rounded-md border">
+		<div className="grid grid-cols-2 gap-2 rounded-md border min-h-[500px]">
+			<div className="">
 				<Table>
 					<TableHeader>
 						{table.getHeaderGroups().map((headerGroup) => (
@@ -108,6 +112,8 @@ export function DataTable<TData, TValue>({
 					</div>
 				</div>
 			</div>
+
+			<GasStationMap gasStations={gasStations as GasStationFeatureForTable[]} />
 		</div>
 	);
 }

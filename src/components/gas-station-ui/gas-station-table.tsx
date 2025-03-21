@@ -12,7 +12,6 @@ import {
 import React, { use } from "react";
 import { DataTable } from "../ui/data-table";
 import { columns } from "./columns";
-import { GasStationMap } from "./gas-station-map";
 
 async function getGasStations() {
 	const GAS_STATION_URL = process.env.GAS_STATION_URL;
@@ -84,15 +83,12 @@ export const GasStationTableServer = ({
 					</div>
 
 					{/* Results count */}
-					<div className="grid grid-cols-2 gap-2">
-						<div className="rounded-md border">
-							<DataTable
-								columns={columns}
-								data={transformedGasStationsForTable}
-								originalDataCount={gasStations.length}
-							/>
-						</div>
-						<GasStationMap gasStations={gasStations} />
+					<div className="">
+						<DataTable
+							columns={columns}
+							data={transformedGasStationsForTable}
+							originalDataCount={gasStations.length}
+						/>
 					</div>
 				</div>
 			</CardContent>
