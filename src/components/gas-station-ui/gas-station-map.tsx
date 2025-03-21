@@ -10,7 +10,6 @@ export const GasStationMap = ({
 }: {
 	gasStations: GasStationFeatureForTable[];
 }) => {
-	console.log(gasStations);
 	const initialViewState = gasStations.at(0)?.coordinates;
 
 	const markers = useMemo(

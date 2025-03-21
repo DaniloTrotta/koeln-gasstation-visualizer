@@ -51,7 +51,7 @@ export function DataTable<TData, TValue>({
 	const gasStations = table.getRowModel().rows.map((row) => row.original);
 
 	return (
-		<div className="grid grid-cols-2 gap-2 rounded-md border min-h-[500px]">
+		<div className="flex flex-col gap-2 rounded-md border min-h-[500px]">
 			<div className="">
 				<Table>
 					<TableHeader>
@@ -112,8 +112,11 @@ export function DataTable<TData, TValue>({
 					</div>
 				</div>
 			</div>
-
-			<GasStationMap gasStations={gasStations as GasStationFeatureForTable[]} />
+			<div className=" aspect-video w-full">
+				<GasStationMap
+					gasStations={gasStations as GasStationFeatureForTable[]}
+				/>
+			</div>
 		</div>
 	);
 }
