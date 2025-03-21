@@ -18,7 +18,9 @@ async function getGasStations() {
 	if (!GAS_STATION_URL) {
 		throw new Error("GAS_STATION_URL is not defined, check your .env file");
 	}
-	const response = await fetch(GAS_STATION_URL);
+	const response = await fetch(GAS_STATION_URL, {
+		cache: "force-cache",
+	});
 	const rawData = await response.json();
 
 	// Validate the data with Zod
@@ -74,24 +76,22 @@ export const GasStationTableServer = ({
 	}
 
 	return (
-		<Card>
-			<CardContent>
-				<div>
-					{/* Search form */}
-					<div className="search-form mb-4">
-						<SearchBar />
-					</div>
-
-					{/* Results count */}
-					<div className="">
-						<DataTable
-							columns={columns}
-							data={transformedGasStationsForTable}
-							originalDataCount={gasStations.length}
-						/>
-					</div>
+		<div>
+			<div>
+				{/* Search form */}
+				<div className="search-form mb-4">
+					<SearchBar />
 				</div>
-			</CardContent>
-		</Card>
+
+				{/* Results count */}
+				<div className="">
+					<DataTable
+						columns={columns}
+						data={transformedGasStationsForTable}
+						originalDataCount={gasStations.length}
+					/>
+				</div>
+			</div>
+		</div>
 	);
 };

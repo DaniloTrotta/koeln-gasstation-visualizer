@@ -21,6 +21,7 @@ import {
 import { useState } from "react";
 import type { GasStationFeatureForTable } from "../gas-station-ui/columns";
 import { GasStationMap } from "../gas-station-ui/gas-station-map";
+import { Card, CardContent, CardFooter } from "./card";
 import { DataTablePagination } from "./data-table-pagination";
 
 interface DataTableProps<TData, TValue> {
@@ -51,9 +52,9 @@ export function DataTable<TData, TValue>({
 	const gasStations = table.getRowModel().rows.map((row) => row.original);
 
 	return (
-		<div className="flex flex-col gap-2 rounded-md border min-h-[500px]">
-			<div className="">
-				<Table>
+		<Card className="grid grid-cols-3 gap-2 rounded-md border min-h-[550px]">
+			<CardContent className="col-span-2 flex flex-col justify-between">
+				<Table className="">
 					<TableHeader>
 						{table.getHeaderGroups().map((headerGroup) => (
 							<TableRow key={headerGroup.id}>
@@ -101,7 +102,7 @@ export function DataTable<TData, TValue>({
 						)}
 					</TableBody>
 				</Table>
-				<div className="flex items-baseline py-4 px-2 w-full">
+				<div className="flex items-baseline py-4 px-2 w-full mt-auto">
 					{data.length !== originalDataCount && (
 						<p className="mb-2 text-xs text-muted-foreground ">
 							Showing {data.length} of {originalDataCount} gas stations
@@ -111,12 +112,14 @@ export function DataTable<TData, TValue>({
 						<DataTablePagination table={table} />
 					</div>
 				</div>
-			</div>
-			<div className=" aspect-video w-full">
-				<GasStationMap
-					gasStations={gasStations as GasStationFeatureForTable[]}
-				/>
-			</div>
-		</div>
+			</CardContent>
+			<CardFooter>
+				<div className=" h-full w-full rounded-3xl border-2 border-foreground/10 overflow-hidden">
+					<GasStationMap
+						gasStations={gasStations as GasStationFeatureForTable[]}
+					/>
+				</div>
+			</CardFooter>
+		</Card>
 	);
 }

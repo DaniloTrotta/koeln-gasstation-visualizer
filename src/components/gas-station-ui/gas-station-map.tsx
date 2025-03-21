@@ -3,6 +3,7 @@ import { useMemo } from "react";
 // biome-ignore lint/suspicious/noShadowRestrictedNames: <explanation>
 import Map, { Marker } from "react-map-gl/mapbox";
 import "mapbox-gl/dist/mapbox-gl.css";
+import { useTheme } from "next-themes";
 import type { GasStationFeatureForTable } from "./columns";
 
 export const GasStationMap = ({
@@ -10,6 +11,7 @@ export const GasStationMap = ({
 }: {
 	gasStations: GasStationFeatureForTable[];
 }) => {
+	const { theme } = useTheme();
 	const initialViewState = gasStations.at(0)?.coordinates;
 
 	const markers = useMemo(
@@ -19,7 +21,6 @@ export const GasStationMap = ({
 					key={gasStation.adresse}
 					longitude={gasStation.coordinates.x}
 					latitude={gasStation.coordinates.y}
-					pitchAlignment="map"
 				/>
 			)),
 		[gasStations],
@@ -35,7 +36,11 @@ export const GasStationMap = ({
 					pitch: 0,
 				}}
 				style={{ width: "100%", height: "100%" }}
-				mapStyle="mapbox://styles/mapbox/streets-v9"
+				mapStyle={
+					theme === "dark"
+						? "mapbox://styles/mapbox/dark-v10"
+						: "mapbox://styles/mapbox/streets-v11"
+				}
 			>
 				{markers}
 			</Map>

@@ -2,7 +2,6 @@
 
 import type { ColumnDef } from "@tanstack/react-table";
 import { MapPin } from "lucide-react";
-import { Badge } from "../ui/badge";
 import { DataTableColumnHeader } from "../ui/data-table-column-header";
 
 export type GasStationFeatureForTable = {
@@ -27,15 +26,15 @@ export const columns: ColumnDef<GasStationFeatureForTable>[] = [
 		),
 		cell: ({ row }) => <div>{row.original.adresse}</div>,
 	},
-	{
-		accessorKey: "stadtteil",
-		header: ({ column }) => (
-			<DataTableColumnHeader column={column} title="Stadtteil" />
-		),
-		cell: ({ row }) => (
-			<Badge variant="outline">{row.original.stadtteil || ""}</Badge>
-		),
-	},
+	// {
+	// 	accessorKey: "stadtteil",
+	// 	header: ({ column }) => (
+	// 		<DataTableColumnHeader column={column} title="Stadtteil" />
+	// 	),
+	// 	cell: ({ row }) => (
+	// 		<Badge variant="outline">{row.original.stadtteil || ""}</Badge>
+	// 	),
+	// },
 	{
 		accessorKey: "coordinates",
 		header: "Koordinaten",
