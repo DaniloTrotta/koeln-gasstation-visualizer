@@ -27,7 +27,7 @@ async function getGasStations({
 	return gasStations;
 }
 
-export const GasStationTableServer = ({
+export const GasStationView = ({
 	searchParams,
 }: { searchParams: ReturnType<typeof routes.index.$parseSearchParams> }) => {
 	const { searchTerm, sorting = "asc" } = searchParams;
@@ -43,7 +43,7 @@ export const GasStationTableServer = ({
 					<div className="search-form">
 						<SearchBar />
 					</div>
-					<p className="mt-4">No gas stations found matching your search.</p>
+					<p className="mt-4">Keine Tankstellen gefunden.</p>
 				</CardContent>
 			</Card>
 		);
