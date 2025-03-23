@@ -19,11 +19,9 @@ import {
 	TableRow,
 } from "@/components/ui/table";
 import { useState } from "react";
-import type { GasStationFeatureForTable } from "../gas-station-ui/columns";
 import { GasStationMap } from "../gas-station-ui/gas-station-map";
 import { Card, CardContent, CardFooter } from "./card";
 import { DataTablePagination } from "./data-table-pagination";
-
 interface DataTableProps<TData, TValue> {
 	columns: ColumnDef<TData, TValue>[];
 	data: TData[];
@@ -113,9 +111,7 @@ export function DataTable<TData, TValue>({
 			</CardContent>
 			<CardFooter>
 				<div className=" h-full w-full rounded-3xl border-2 border-foreground/10 overflow-hidden">
-					<GasStationMap
-						gasStations={gasStations as GasStationFeatureForTable[]}
-					/>
+					<GasStationMap gasStations={gasStations} />
 				</div>
 			</CardFooter>
 		</Card>

@@ -1,0 +1,66 @@
+{
+  "id": "dc4c5d91-55ee-467e-88d6-329987f50128",
+  "prevId": "2f61ba84-0ecc-4299-9768-6b30dcedacf4",
+  "version": "7",
+  "dialect": "postgresql",
+  "tables": {
+    "public.gas_stations": {
+      "name": "gas_stations",
+      "schema": "",
+      "columns": {
+        "objectid": {
+          "name": "objectid",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "adresse": {
+          "name": "adresse",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "longitude": {
+          "name": "longitude",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "latitude": {
+          "name": "latitude",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "text_search": {
+          "name": "text_search",
+          "type": "tsvector",
+          "primaryKey": false,
+          "notNull": false,
+          "generated": {
+            "as": "(\n\t\tto_tsvector('simple', coalesce(\"gas_stations\".\"adresse\", ''))\n\t\t)",
+            "type": "stored"
+          }
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    }
+  },
+  "enums": {},
+  "schemas": {},
+  "sequences": {},
+  "roles": {},
+  "policies": {},
+  "views": {},
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
+  }
+}

@@ -1,68 +1,42 @@
 import { SearchBar } from "@/components/searchbar";
+import { SortingDropdown } from "@/components/sorting-dropdown";
 import { Card, CardContent } from "@/components/ui/card";
 
-import { extractDistrict } from "@/lib/utils";
-import { filterGasStationsByAddress } from "@/lib/utils";
+import { gasStationRepository } from "@/server/db/repository/gas-station-repository";
+import type { GasStationSelect } from "@/server/db/schema";
 import type { routes } from "@/utils/routes";
-import {
-	type GasStationFeature,
-	type GasStationResponse,
-	GasStationResponseSchema,
-} from "@/utils/types";
 import React, { use } from "react";
 import { DataTable } from "../ui/data-table";
 import { columns } from "./columns";
+import { CreateGasStationModal } from "./create-gas-station-modal";
 
-async function getGasStations() {
-	const GAS_STATION_URL = process.env.GAS_STATION_URL;
-	if (!GAS_STATION_URL) {
-		throw new Error("GAS_STATION_URL is not defined, check your .env file");
-	}
-	const response = await fetch(GAS_STATION_URL, {
-		cache: "force-cache",
+async function getGasStations({
+	searchTerm,
+	sorting,
+}: {
+	searchTerm: string | undefined;
+	sorting: "asc" | "desc";
+}) {
+	const gasStations = await gasStationRepository.getAllFilteredAndSorted({
+		searchTerm,
+		sort: {
+			id: sorting,
+			desc: sorting === "desc",
+		},
 	});
-	const rawData = await response.json();
-
-	// Validate the data with Zod
-	const validationResult = GasStationResponseSchema.safeParse(rawData);
-
-	if (!validationResult.success) {
-		throw new Error(
-			`Data validation failed: ${validationResult.error.message}`,
-		);
-	}
-
-	const data: GasStationResponse = validationResult.data;
-	return data.features;
+	return gasStations;
 }
 
 export const GasStationTableServer = ({
 	searchParams,
 }: { searchParams: ReturnType<typeof routes.index.$parseSearchParams> }) => {
-	const { searchTerm } = searchParams;
+	const { searchTerm, sorting = "asc" } = searchParams;
 
-	let gasStations: GasStationFeature[] = [];
+	let gasStations: GasStationSelect[] = [];
 
-	gasStations = use(getGasStations());
+	gasStations = use(getGasStations({ searchTerm, sorting }));
 
-	const filteredGasStations = filterGasStationsByAddress(
-		gasStations,
-		searchTerm,
-	);
-
-	const transformedGasStationsForTable = filteredGasStations.map(
-		(gasStation: GasStationFeature) => ({
-			id: gasStation.attributes.objectid,
-			adresse: gasStation.attributes.adresse,
-			coordinates: {
-				x: gasStation.geometry.x,
-				y: gasStation.geometry.y,
-			},
-			stadtteil: extractDistrict(gasStation.attributes.adresse),
-		}),
-	);
-
-	if (transformedGasStationsForTable.length === 0) {
+	if (gasStations.length === 0) {
 		return (
 			<Card>
 				<CardContent>
@@ -78,16 +52,23 @@ export const GasStationTableServer = ({
 	return (
 		<div>
 			<div>
-				{/* Search form */}
-				<div className="search-form mb-4">
-					<SearchBar />
+				{/* Search and sort controls */}
+				<div className="flex flex-col gap-0 w-full mb-4">
+					<div className="mb-4 flex gap-4 items-center">
+						<div className="flex-1">
+							<SearchBar />
+						</div>
+						<SortingDropdown />
+					</div>
+
+					<CreateGasStationModal />
 				</div>
 
 				{/* Results count */}
-				<div className="">
+				<div>
 					<DataTable
 						columns={columns}
-						data={transformedGasStationsForTable}
+						data={gasStations}
 						originalDataCount={gasStations.length}
 					/>
 				</div>

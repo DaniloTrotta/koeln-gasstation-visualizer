@@ -1,4 +1,4 @@
-import type { GasStationFeature } from "@/utils/types";
+import type { GasStationSelect } from "@/server/db/schema";
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 
@@ -7,9 +7,9 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function filterGasStationsByAddress(
-	gasStations: GasStationFeature[],
+	gasStations: GasStationSelect[],
 	searchTerm: string | undefined,
-): GasStationFeature[] {
+): GasStationSelect[] {
 	if (!searchTerm || !searchTerm.trim()) {
 		return gasStations; // Return all stations if no search term
 	}
@@ -17,7 +17,7 @@ export function filterGasStationsByAddress(
 	const normalizedSearchTerm = searchTerm.toLowerCase().trim();
 
 	return gasStations.filter((station) =>
-		station.attributes.adresse.toLowerCase().includes(normalizedSearchTerm),
+		station.adresse.toLowerCase().includes(normalizedSearchTerm),
 	);
 }
 
