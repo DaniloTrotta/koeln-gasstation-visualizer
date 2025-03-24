@@ -1,4 +1,4 @@
-import { GasStationTableServer } from "@/components/gas-station-ui/gas-station-table";
+import { GasStationView } from "@/components/gas-station-ui/gas-station-view";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import type { PageParams } from "@/lib/page-params";
 import { routes } from "@/utils/routes";
@@ -21,7 +21,7 @@ export default async function Home(props: PageParams) {
 				Straßennamen und Sortierung.
 			</p>
 			<Suspense fallback={<div>Lade...</div>}>
-				<GasStationTableServer searchParams={parsedSearchParams} />
+				<GasStationView searchParams={parsedSearchParams} />
 			</Suspense>
 		</main>
 	);

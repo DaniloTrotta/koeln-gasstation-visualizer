@@ -36,7 +36,7 @@ async function getGasStations() {
 	return data.features;
 }
 
-export const GasStationTableServer = ({
+export const GasStationView = ({
 	searchParams,
 }: { searchParams: ReturnType<typeof routes.index.$parseSearchParams> }) => {
 	const { searchTerm } = searchParams;
