@@ -1,4 +1,4 @@
-import { GasStationTableServer } from "@/components/gas-station-ui/gas-station-table";
+import { GasStationView } from "@/components/gas-station-ui/gas-station-view";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import type { PageParams } from "@/lib/page-params";
 import { routes } from "@/utils/routes";
@@ -20,8 +20,21 @@ export default async function Home(props: PageParams) {
 				Eine Übersicht aller Tankstellen in Köln mit Filtermöglichkeiten nach
 				Straßennamen und Sortierung.
 			</p>
+			<p className="text-muted-foreground mb-6">
+				Daten werden in eine PostgreSQL Datenbank (NeonDB) importiert bei aufruf
+				der <code className="bg-muted px-1 rounded-md">api/import-data</code>{" "}
+				route.
+				<br />
+				Die Daten werden dann von der Datenbank abgerufen und angezeigt.
+				<br />
+				Es können neue Tankstellen hinzugefügt oder gelöscht werden.
+			</p>
+			<p className="text-muted-foreground mb-6">
+				<span className="font-bold text-primary">Tech-Stack:</span> Next.js,
+				Shadcn, NeonDB, Drizzle, Zod, Nuqs, ZSA
+			</p>
 			<Suspense fallback={<div>Lade...</div>}>
-				<GasStationTableServer searchParams={parsedSearchParams} />
+				<GasStationView searchParams={parsedSearchParams} />
 			</Suspense>
 		</main>
 	);

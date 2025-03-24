@@ -3,19 +3,12 @@ import { z } from "zod";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const baseSearchParamsSchema = {
-	desc: z
-		.string()
-		.transform((value) => value === "true")
-		.optional(),
-	column: z.string().optional(),
-	page: z.coerce.number().optional(),
-	limit: z.coerce.number().optional(),
 	searchTerm: z.string().optional(),
+	sorting: z.enum(["asc", "desc"]).optional(),
 };
 
 export type BaseSortSearchParams = {
-	column: z.infer<(typeof baseSearchParamsSchema)["column"]>;
-	desc: z.infer<(typeof baseSearchParamsSchema)["desc"]>;
+	sorting: z.infer<(typeof baseSearchParamsSchema)["sorting"]>;
 };
 
 export const { routes, useSafeParams, useSafeSearchParams } =
@@ -24,6 +17,7 @@ export const { routes, useSafeParams, useSafeSearchParams } =
 			search: z
 				.object({
 					searchTerm: z.string().optional(),
+					sorting: z.enum(["asc", "desc"]).optional(),
 				})
 				.default({}),
 		}),

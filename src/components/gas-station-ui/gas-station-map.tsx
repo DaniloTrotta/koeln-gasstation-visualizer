@@ -3,27 +3,27 @@ import { useMemo, useState } from "react";
 // biome-ignore lint/suspicious/noShadowRestrictedNames: <explanation>
 import Map, { Marker, Popup } from "react-map-gl/mapbox";
 import "mapbox-gl/dist/mapbox-gl.css";
+import type { GasStationSelect } from "@/server/db/schema";
 import { useTheme } from "next-themes";
-import type { GasStationFeatureForTable } from "./columns";
-
 export const GasStationMap = ({
 	gasStations,
 }: {
-	gasStations: GasStationFeatureForTable[];
+	gasStations: GasStationSelect[];
 }) => {
 	const { theme } = useTheme();
-	const initialViewState = gasStations.at(0)?.coordinates;
-	const [popupInfo, setPopupInfo] = useState<GasStationFeatureForTable | null>(
-		null,
-	);
+	const initialViewState = {
+		x: gasStations.at(0)?.longitude,
+		y: gasStations.at(0)?.latitude,
+	};
+	const [popupInfo, setPopupInfo] = useState<GasStationSelect | null>(null);
 
 	const markers = useMemo(
 		() =>
 			gasStations.map((gasStation) => (
 				<Marker
 					key={gasStation.adresse}
-					longitude={gasStation.coordinates.x}
-					latitude={gasStation.coordinates.y}
+					longitude={Number(gasStation.longitude)}
+					latitude={Number(gasStation.latitude)}
 					anchor="bottom"
 					onClick={(e) => {
 						// If we let the click event propagates to the map, it will immediately close the popup
@@ -39,8 +39,8 @@ export const GasStationMap = ({
 		<div className="relative h-full w-full">
 			<Map
 				initialViewState={{
-					longitude: initialViewState?.x,
-					latitude: initialViewState?.y,
+					longitude: Number(initialViewState?.x),
+					latitude: Number(initialViewState?.y),
 					zoom: 12,
 					bearing: 0,
 					pitch: 0,
@@ -56,8 +56,8 @@ export const GasStationMap = ({
 				{popupInfo && (
 					<Popup
 						anchor="top"
-						longitude={Number(popupInfo.coordinates.x)}
-						latitude={Number(popupInfo.coordinates.y)}
+						longitude={Number(popupInfo.longitude)}
+						latitude={Number(popupInfo.latitude)}
 						onClose={() => setPopupInfo(null)}
 					>
 						<div>{popupInfo.adresse}</div>
